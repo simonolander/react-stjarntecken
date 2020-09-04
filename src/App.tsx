@@ -1,26 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import SkyView from "./SkyView";
+import {useSelector} from "react-redux";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface SideBarProps {
+
 }
 
-export default App;
+function SideBar(props: SideBarProps) {
+    return null
+}
+
+export default function App() {
+    const window = useSelector(state => state.window);
+    return (
+        <div>
+            <SkyView size={window}/>
+        </div>
+    );
+}
