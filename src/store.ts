@@ -2,9 +2,9 @@ import {Size} from "./size";
 import {DefaultRootState} from "react-redux";
 import {configureStore, createAction, createReducer} from "@reduxjs/toolkit";
 import {Sky} from "./sky";
-import {Rectangle} from "./rectangle";
 import {deg2rad} from "./math";
 import {aspect, scale, translate} from "./viewPort";
+import {girlConstellation} from "./constellation";
 
 
 declare module "react-redux" {
@@ -23,7 +23,12 @@ console.log(initialWindowSize)
 const initialState: DefaultRootState = {
     window: initialWindowSize,
     sky: {
-        constellations: [],
+        constellations: [{
+            angle: 0,
+            constellation: girlConstellation,
+            x: 300,
+            y: 300
+        }],
         edges: [],
         extraStars: [
             {
@@ -89,9 +94,15 @@ const initialState: DefaultRootState = {
 }
 
 export const resizeAction = createAction<Size>("resize");
+
 export const viewBoxAspectAction = createAction<Size>("viewBoxAspect")
 export const viewBoxTranslateAction = createAction<{dx: number, dy: number}>("viewBoxTranslate")
 export const viewBoxScaleAction = createAction<{fx: number, fy: number, ds: number}>("viewBoxScale")
+
+export const starEnterAction = createAction<string | null>("starEnter")
+export const starLeaveAction = createAction<string | null>("starLeave")
+export const starMouseDownAction = createAction<string | null>("starMouseDown")
+
 
 export const store = configureStore({
     reducer: createReducer(initialState, builder => builder
@@ -106,6 +117,17 @@ export const store = configureStore({
         })
         .addCase(viewBoxScaleAction, (state, action) => {
             scale(state.sky.viewPort, action.payload.fx, action.payload.fy, action.payload.ds)
+        })
+        .addCase(starEnterAction, (state, action) => {
+            state.sky.hoveredStarId = action.payload
+        })
+        .addCase(starLeaveAction, (state, action) => {
+            if (state.sky.hoveredStarId === action.payload) {
+                state.sky.hoveredStarId = null
+            }
+        })
+        .addCase(starMouseDownAction, (state, action) => {
+            state.sky.focusedStarId = action.payload
         })
     )
 });
