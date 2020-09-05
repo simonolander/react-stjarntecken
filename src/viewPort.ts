@@ -1,4 +1,4 @@
-import {Rectangle} from "./rectangle";
+import {Rectangle, rectangleArea} from "./rectangle";
 import {clamp} from "./math";
 
 export interface ViewPort {
@@ -12,23 +12,27 @@ export function translate(viewPort: ViewPort, dx: number, dy: number) {
 }
 
 export function scale(viewPort: ViewPort, fx: number, fy: number, ds: number) {
-    if (ds <= 0) {
-        return
-    }
-
-    ds = Math.min(ds, viewPort.bounds.width / viewPort.viewBox.width)
-    ds = Math.min(ds, viewPort.bounds.height / viewPort.viewBox.height)
+    const minimumSize = 5
+    ds = clamp(ds, minimumSize / viewPort.viewBox.width, viewPort.bounds.width / viewPort.viewBox.width)
+    ds = clamp(ds, minimumSize / viewPort.viewBox.height, viewPort.bounds.height / viewPort.viewBox.height)
 
     const dx = (fx - viewPort.viewBox.x) * (1 - ds)
     const dy = (fy - viewPort.viewBox.y) * (1 - ds)
-    translate(viewPort, dx, dy)
     viewPort.viewBox.width *= ds
     viewPort.viewBox.height *= ds
+    translate(viewPort, dx, dy)
 }
 
 export function aspect(viewPort: ViewPort, width: number, height: number) {
-    viewPort.viewBox.x = viewPort.bounds.x
-    viewPort.viewBox.y = viewPort.bounds.y
-    viewPort.viewBox.width = width
-    viewPort.viewBox.height = height
+    const maxArea = width / height < viewPort.bounds.width / viewPort.bounds.height
+        ? viewPort.bounds.height * viewPort.bounds.height * width / height
+        : viewPort.bounds.width * viewPort.bounds.width * height / width
+    const area = Math.min(rectangleArea(viewPort.viewBox), maxArea)
+    const newWidth = Math.sqrt(area * width / height)
+    const newHeight = area / newWidth
+    const dx = (viewPort.viewBox.width - newWidth) / 2
+    const dy = (viewPort.viewBox.height - newHeight) / 2
+    viewPort.viewBox.width = newWidth
+    viewPort.viewBox.height = newHeight
+    translate(viewPort, dx, dy)
 }
