@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import SkyView from "./SkyView";
+import {resizeAction, store} from "./store";
 import {useSelector} from "react-redux";
 
 interface SideBarProps {
@@ -11,10 +12,20 @@ function SideBar(props: SideBarProps) {
 }
 
 export default function App() {
-    const window = useSelector(state => state.window);
+    const windowSize = useSelector(state => state.window);
+    useEffect(() => {
+        const onResize = () => {
+            store.dispatch(resizeAction({
+                width: window.innerWidth,
+                height: window.innerHeight,
+            }))
+        }
+        window.addEventListener("resize", onResize)
+        return () => window.removeEventListener("resize", onResize)
+    }, [])
     return (
         <div>
-            <SkyView size={window}/>
+            <SkyView size={windowSize}/>
         </div>
     );
 }
