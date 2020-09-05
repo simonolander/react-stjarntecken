@@ -26,29 +26,11 @@ const initialState: DefaultRootState = {
         constellations: [{
             angle: 0,
             constellation: girlConstellation,
-            x: 300,
-            y: 300
+            x: 1100,
+            y: 400
         }],
         edges: [],
         extraStars: [
-            {
-                id: "4aefe6e2-172d-4518-b8ca-e7cc885cad82",
-                x: 1344 + 150 * Math.cos(deg2rad(0 - 90)),
-                y: 763.5 + 150 * Math.sin(deg2rad(0 - 90)),
-                size: 1,
-            },
-            {
-                id: "fe6349e2-9b12-4d6f-b04c-f6beaee5ff2f",
-                x: 1344 + 150 * Math.cos(deg2rad(120 - 90)),
-                y: 763.5 + 150 * Math.sin(deg2rad(120 - 90)),
-                size: 0.4,
-            },
-            {
-                id: "5df46211-e056-41e4-b46b-6b2c84a79ca5",
-                x: 1344 + 150 * Math.cos(deg2rad(240 - 90)),
-                y: 763.5 + 150 * Math.sin(deg2rad(240 - 90)),
-                size: 0.6,
-            },
             {
                 id: "d14676c2-52e5-4313-ad1d-5ddbdff200d6",
                 x: 0,
