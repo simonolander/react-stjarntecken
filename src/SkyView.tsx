@@ -29,13 +29,13 @@ function StarView(props: { star: Star }) {
                 style={{animation: "2s fadeIn"}}
                 cx={props.star.x}
                 cy={props.star.y}
-                r={props.star.size * 10}
+                r={props.star.size * 5}
                 fill="white"
             />
             <circle
                 cx={props.star.x}
                 cy={props.star.y}
-                r={30}
+                r={15}
                 fill={focusedStarId === props.star.id ? "#ffffffc0" : hoveredStarId === props.star.id ? "#ffffff80" : "transparent"}
                 onMouseEnter={() => dispatch(starEnterAction(props.star.id))}
                 onMouseLeave={() => dispatch(starLeaveAction(props.star.id))}
@@ -106,6 +106,7 @@ export default function SkyView(props: SkyViewProps) {
                 .filter(constellation => constellationIsComplete(constellation.constellation, sky.edges))
                 .map(constellation => (
                     <image
+                        onDragStart={e => e.preventDefault()}
                         href={constellation.constellation.image}
                         x={constellation.x}
                         y={constellation.y}
