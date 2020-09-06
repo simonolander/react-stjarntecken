@@ -29,13 +29,13 @@ function StarView(props: { star: Star }) {
                 style={{animation: "2s fadeIn"}}
                 cx={props.star.x}
                 cy={props.star.y}
-                r={props.star.size * 5}
+                r={props.star.size * 10}
                 fill="white"
             />
             <circle
                 cx={props.star.x}
                 cy={props.star.y}
-                r={15}
+                r={30}
                 fill={focusedStarId === props.star.id ? "#ffffffc0" : hoveredStarId === props.star.id ? "#ffffff80" : "transparent"}
                 onMouseEnter={() => dispatch(starEnterAction(props.star.id))}
                 onMouseLeave={() => dispatch(starLeaveAction(props.star.id))}

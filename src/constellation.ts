@@ -1,4 +1,5 @@
 import girlImage from "./image/girl-braid.png"
+import squirrelImage from "./image/squirrel.png"
 
 export interface Star {
     id: string
@@ -96,6 +97,61 @@ export const girlConstellation: Constellation = {
     height: 798
 }
 
+export const squirrelConstellation: Constellation = {
+    id: "64c2ee79-40c0-43d2-9b2c-97df37150c34",
+    name: "Squirrel",
+    stars: [
+        {
+            id: "45a9a232-8deb-4fbd-99d8-807e9cef1775",
+            x: 309,
+            y: 426,
+            size: 0.3
+        },
+        {
+            id: "7c995c7d-f930-4628-9512-8fbe4b9bb06a",
+            x: 331,
+            y: 525,
+            size: 0.6
+        },
+        {
+            id: "69268240-c532-488a-902a-604a6e894bb9",
+            x: 140,
+            y: 487,
+            size: 0.4
+        },
+        {
+            id: "cc6c2ca1-02d0-483b-accd-687277dd3693",
+            x: 109,
+            y: 352,
+            size: 0.6
+        },
+        {
+            id: "5fcc522b-5501-4be4-b9c6-6e39a857918c",
+            x: 204,
+            y: 196,
+            size: 0.9
+        },
+        {
+            id: "ce314ece-5a20-47d5-9f88-2ced4d8018c1",
+            x: 54,
+            y: 97,
+            size: 0.4
+        },
+    ],
+    edges: [
+        ["45a9a232-8deb-4fbd-99d8-807e9cef1775", "7c995c7d-f930-4628-9512-8fbe4b9bb06a"],
+        ["45a9a232-8deb-4fbd-99d8-807e9cef1775", "69268240-c532-488a-902a-604a6e894bb9"],
+        ["7c995c7d-f930-4628-9512-8fbe4b9bb06a", "69268240-c532-488a-902a-604a6e894bb9"],
+        ["69268240-c532-488a-902a-604a6e894bb9", "cc6c2ca1-02d0-483b-accd-687277dd3693"],
+        ["cc6c2ca1-02d0-483b-accd-687277dd3693", "5fcc522b-5501-4be4-b9c6-6e39a857918c"],
+        ["5fcc522b-5501-4be4-b9c6-6e39a857918c", "ce314ece-5a20-47d5-9f88-2ced4d8018c1"],
+    ],
+    image: squirrelImage,
+    width: 554,
+    height: 739,
+}
+
 export const constellations: Constellation[] = [
-    girlConstellation
+    girlConstellation,
+    squirrelConstellation
 ]

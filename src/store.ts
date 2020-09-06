@@ -3,7 +3,7 @@ import {DefaultRootState} from "react-redux";
 import {configureStore, createAction, createReducer} from "@reduxjs/toolkit";
 import {hasEdge, Sky, toggleEdge} from "./sky";
 import {aspect, scale, translate} from "./viewPort";
-import {girlConstellation} from "./constellation";
+import {girlConstellation, squirrelConstellation} from "./constellation";
 
 
 declare module "react-redux" {
@@ -24,7 +24,7 @@ const initialState: DefaultRootState = {
     sky: {
         constellations: [{
             angle: 0,
-            constellation: girlConstellation,
+            constellation: squirrelConstellation,
             x: 1100,
             y: 400
         }],
