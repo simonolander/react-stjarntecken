@@ -23,6 +23,25 @@ export interface Constellation {
     height: number
 }
 
+export function constellationIsComplete(constellation: Constellation, edges: ConstellationEdge[]): boolean {
+    const starIdSet = new Set(constellation.stars.map(({id}) => id))
+    const edgesWithStar = edges.filter(([id1, id2]) => starIdSet.has(id1) || starIdSet.has(id2))
+    if (edgesWithStar.length !== constellation.edges.length) {
+        return false
+    }
+    for (const correctEdge of constellation.edges) {
+        if (!edges.some(edge => edgeEquals(edge, correctEdge))) {
+            return false
+        }
+    }
+    for (const actualEdge of edges) {
+        if (!constellation.edges.some(edge => edgeEquals(edge, actualEdge))) {
+            return false
+        }
+    }
+    return true
+}
+
 export const girlConstellation: Constellation = {
     id: "92c9bab9-6501-4b71-be1b-1051bbcfc5ff",
     name: "Braided girl",

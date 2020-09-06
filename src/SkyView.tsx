@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import space from "./image/space.jpg"
 import {Size} from "./size";
 import {toViewBoxString} from "./rectangle";
-import {Star} from "./constellation";
+import {constellationIsComplete, constellations, Star} from "./constellation";
 import {useDispatch, useSelector} from "react-redux";
 import {
     skyMouseUpAction,
@@ -26,6 +26,7 @@ function StarView(props: { star: Star }) {
     return (
         <g>
             <circle
+                style={{animation: "2s fadeIn"}}
                 cx={props.star.x}
                 cy={props.star.y}
                 r={props.star.size * 10}
@@ -34,7 +35,7 @@ function StarView(props: { star: Star }) {
             <circle
                 cx={props.star.x}
                 cy={props.star.y}
-                r={props.star.size * 30}
+                r={30}
                 fill={focusedStarId === props.star.id ? "#ffffffc0" : hoveredStarId === props.star.id ? "#ffffff80" : "transparent"}
                 onMouseEnter={() => dispatch(starEnterAction(props.star.id))}
                 onMouseLeave={() => dispatch(starLeaveAction(props.star.id))}
@@ -101,16 +102,17 @@ export default function SkyView(props: SkyViewProps) {
                 dispatch(viewBoxScaleAction({fx, fy, ds}))
             }}
         >
-            {/*{sky.constellations.map(constellation => (*/}
-            {/*    <image*/}
-            {/*        href={constellation.constellation.image}*/}
-            {/*        x={constellation.x}*/}
-            {/*        y={constellation.y}*/}
-            {/*        transform={`*/}
-            {/*            rotate(0, ${constellation.x + constellation.constellation.width / 2}, ${constellation.y + constellation.constellation.height / 2})*/}
-            {/*        `}*/}
-            {/*    />*/}
-            {/*))}*/}
+            {sky.constellations
+                .filter(constellation => constellationIsComplete(constellation.constellation, sky.edges))
+                .map(constellation => (
+                    <image
+                        href={constellation.constellation.image}
+                        x={constellation.x}
+                        y={constellation.y}
+                        style={{animation: "2s fade-in"}}
+                    />
+                ))
+            }
             {sky.edges.map(([id1, id2]) => (
                 <line
                     x1={starMap[id1].x}
