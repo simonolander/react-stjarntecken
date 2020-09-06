@@ -5,12 +5,15 @@ import {toViewBoxString} from "./rectangle";
 import {Star} from "./constellation";
 import {useDispatch, useSelector} from "react-redux";
 import {
+    skyMouseUpAction,
     starEnterAction,
     starLeaveAction,
+    starMouseDownAction,
     viewBoxAspectAction,
     viewBoxScaleAction,
     viewBoxTranslateAction
 } from "./store";
+import {createMap} from "./misc";
 
 interface SkyViewProps {
     size: Size
@@ -19,6 +22,7 @@ interface SkyViewProps {
 function StarView(props: { star: Star }) {
     const dispatch = useDispatch()
     const hoveredStarId = useSelector(state => state.sky.hoveredStarId);
+    const focusedStarId = useSelector(state => state.sky.focusedStarId);
     return (
         <g>
             <circle
@@ -31,10 +35,10 @@ function StarView(props: { star: Star }) {
                 cx={props.star.x}
                 cy={props.star.y}
                 r={props.star.size * 30}
-                fill={hoveredStarId === props.star.id ? "#ffffff80":"transparent"}
+                fill={focusedStarId === props.star.id ? "#ffffffc0" : hoveredStarId === props.star.id ? "#ffffff80" : "transparent"}
                 onMouseEnter={() => dispatch(starEnterAction(props.star.id))}
                 onMouseLeave={() => dispatch(starLeaveAction(props.star.id))}
-                onMouseDown={() => undefined}
+                onMouseDown={() => dispatch(starMouseDownAction(props.star.id))}
             />
         </g>
     )
@@ -59,21 +63,7 @@ export default function SkyView(props: SkyViewProps) {
             })
         }
     }
-
-    const edges = []
-    for (const constellation of sky.constellations) {
-        for (const edge of constellation.constellation.edges) {
-            const star0 = constellation.constellation.stars.find(star => star.id === edge[0])
-            if (!star0) {
-                continue
-            }
-            const star1 = constellation.constellation.stars.find(star => star.id === edge[1])
-            if (!star1) {
-                continue
-            }
-            edges.push([star0.x + constellation.x, star0.y + constellation.y, star1.x + constellation.x, star1.y + constellation.y])
-        }
-    }
+    const starMap = createMap(stars)
 
     return (
         <svg
@@ -85,12 +75,16 @@ export default function SkyView(props: SkyViewProps) {
                 backgroundBlendMode: "color-burn"
             }}
             viewBox={toViewBoxString(sky.viewPort.viewBox)}
-            onMouseDownCapture={e => {
-                e.preventDefault()
-                setDragging(true)
+            onMouseDown={e => {
+                if (!sky.hoveredStarId) {
+                    setDragging(true)
+                }
             }}
-            onMouseUpCapture={e => setDragging(false)}
-            onMouseMoveCapture={e => {
+            onMouseUp={() => {
+                setDragging(false)
+                dispatch(skyMouseUpAction())
+            }}
+            onMouseMove={e => {
                 if (!dragging) {
                     return
                 }
@@ -107,11 +101,25 @@ export default function SkyView(props: SkyViewProps) {
                 dispatch(viewBoxScaleAction({fx, fy, ds}))
             }}
         >
-            {sky.constellations.map(constellation => (
-                <image href={constellation.constellation.image} x={constellation.x} y={constellation.y}/>
-            ))}
-            {edges.map(([x0, y0, x1, y1]) => (
-                <line x1={x0} y1={y0} x2={x1} y2={y1} stroke="white" strokeWidth={3}/>
+            {/*{sky.constellations.map(constellation => (*/}
+            {/*    <image*/}
+            {/*        href={constellation.constellation.image}*/}
+            {/*        x={constellation.x}*/}
+            {/*        y={constellation.y}*/}
+            {/*        transform={`*/}
+            {/*            rotate(0, ${constellation.x + constellation.constellation.width / 2}, ${constellation.y + constellation.constellation.height / 2})*/}
+            {/*        `}*/}
+            {/*    />*/}
+            {/*))}*/}
+            {sky.edges.map(([id1, id2]) => (
+                <line
+                    x1={starMap[id1].x}
+                    y1={starMap[id1].y}
+                    x2={starMap[id2].x}
+                    y2={starMap[id2].y}
+                    stroke="white"
+                    strokeWidth={3}
+                />
             ))}
             {stars.map(star => <StarView key={star.id} star={star}/>)}
         </svg>

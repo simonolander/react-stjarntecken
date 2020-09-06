@@ -1,8 +1,7 @@
 import {Size} from "./size";
 import {DefaultRootState} from "react-redux";
 import {configureStore, createAction, createReducer} from "@reduxjs/toolkit";
-import {Sky} from "./sky";
-import {deg2rad} from "./math";
+import {hasEdge, Sky, toggleEdge} from "./sky";
 import {aspect, scale, translate} from "./viewPort";
 import {girlConstellation} from "./constellation";
 
@@ -81,8 +80,9 @@ export const viewBoxAspectAction = createAction<Size>("viewBoxAspect")
 export const viewBoxTranslateAction = createAction<{dx: number, dy: number}>("viewBoxTranslate")
 export const viewBoxScaleAction = createAction<{fx: number, fy: number, ds: number}>("viewBoxScale")
 
-export const starEnterAction = createAction<string | null>("starEnter")
-export const starLeaveAction = createAction<string | null>("starLeave")
+export const skyMouseUpAction = createAction<void>("skyMouseUp")
+export const starEnterAction = createAction<string>("starEnter")
+export const starLeaveAction = createAction<string>("starLeave")
 export const starMouseDownAction = createAction<string | null>("starMouseDown")
 
 
@@ -102,6 +102,12 @@ export const store = configureStore({
         })
         .addCase(starEnterAction, (state, action) => {
             state.sky.hoveredStarId = action.payload
+            if (state.sky.focusedStarId) {
+                if (state.sky.focusedStarId !== action.payload) {
+                    toggleEdge(state.sky, state.sky.focusedStarId, action.payload)
+                }
+                state.sky.focusedStarId = action.payload
+            }
         })
         .addCase(starLeaveAction, (state, action) => {
             if (state.sky.hoveredStarId === action.payload) {
@@ -110,6 +116,9 @@ export const store = configureStore({
         })
         .addCase(starMouseDownAction, (state, action) => {
             state.sky.focusedStarId = action.payload
+        })
+        .addCase(skyMouseUpAction, (state, action) => {
+            state.sky.focusedStarId = null
         })
     )
 });

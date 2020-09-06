@@ -9,6 +9,10 @@ export interface Star {
 
 export type ConstellationEdge = [string, string]
 
+export function edgeEquals(e1: ConstellationEdge, e2: ConstellationEdge) {
+    return (e1[0] === e2[0] && e1[1] === e2[1]) || (e1[0] === e2[1] && e1[1] === e2[0])
+}
+
 export interface Constellation {
     id: string
     name: string
