@@ -3,7 +3,7 @@ import {DefaultRootState} from "react-redux";
 import {configureStore, createAction, createReducer} from "@reduxjs/toolkit";
 import {hasEdge, Sky, toggleEdge} from "./sky";
 import {aspect, scale, translate} from "./viewPort";
-import {girlConstellation, squirrelConstellation} from "./constellation";
+import {girlConstellation, goatConstellation, squirrelConstellation} from "./constellation";
 
 
 declare module "react-redux" {
@@ -17,16 +17,17 @@ const initialWindowSize = {
     width: window.innerWidth,
     height: window.innerHeight,
 }
-console.log(initialWindowSize)
+
+const constellation = goatConstellation
 
 const initialState: DefaultRootState = {
     window: initialWindowSize,
     sky: {
         constellations: [{
             angle: 0,
-            constellation: squirrelConstellation,
-            x: 1100,
-            y: 400
+            constellation: constellation,
+            x: (initialWindowSize.width - constellation.width) / 2,
+            y: (initialWindowSize.height - constellation.height) / 2,
         }],
         edges: [],
         extraStars: [
@@ -38,20 +39,20 @@ const initialState: DefaultRootState = {
             },
             {
                 id: "8eaa80e4-0886-416f-a644-f6a2e2d5020a",
-                x: 2688,
+                x: initialWindowSize.width,
                 y: 0,
                 size: 5,
             },
             {
                 id: "91c0b565-de29-4831-9ea9-a6cf1b1cd261",
                 x: 0,
-                y: 1527,
+                y: initialWindowSize.height,
                 size: 5,
             },
             {
                 id: "a7bea306-9564-4512-bfb8-7d3bf9ad9ef2",
-                x: 2688,
-                y: 1527,
+                x: initialWindowSize.width,
+                y: initialWindowSize.height,
                 size: 5,
             },
         ],
@@ -61,8 +62,8 @@ const initialState: DefaultRootState = {
             bounds: {
                 x: 0,
                 y: 0,
-                width: 2688,
-                height: 1527,
+                width: initialWindowSize.width,
+                height: initialWindowSize.height,
             },
             viewBox: {
                 x: 0,

@@ -1,5 +1,6 @@
 import girlImage from "./image/girl-braid.png"
 import squirrelImage from "./image/squirrel.png"
+import goatImage from "./image/goat.png"
 
 export interface Star {
     id: string
@@ -151,7 +152,68 @@ export const squirrelConstellation: Constellation = {
     height: 739,
 }
 
+export const goatConstellation: Constellation = {
+    id: "ef1882e7-fbf9-4b2e-b58f-ba55b490a65c",
+    name: "The goat",
+    stars: [
+        {
+            id: "578abf9c-9bcc-44cc-92bd-ffc2ca7ba9ee",
+            size: 0.2,
+            x: 381,
+            y: 313,
+        },
+        {
+            id: "7920747b-c41f-4dad-b95f-a98b96ff314b",
+            size: 0.6,
+            x: 250,
+            y: 352,
+        },
+        {
+            id: "ea186baa-4d56-4d4e-9d7d-532465681e39",
+            size: 0.5,
+            x: 187,
+            y: 191,
+        },
+        {
+            id: "4c29099d-cb97-4890-a458-bd7c89e908b9",
+            size: 0.6,
+            x: 325,
+            y: 104,
+        },
+        {
+            id: "2cea62ef-73e8-4572-8bc1-ea954ae0f538",
+            size: 0.4,
+            x: 473,
+            y: 173,
+        },
+        {
+            id: "8645f4e7-2e5b-4985-be85-f4f304738d9f",
+            size: 0.9,
+            x: 576,
+            y: 385,
+        },
+        {
+            id: "5cfa10e7-f8ca-411b-a263-6e117c7c71bc",
+            size: 0.7,
+            x: 610,
+            y: 83,
+        },
+    ],
+    edges: [
+        ["578abf9c-9bcc-44cc-92bd-ffc2ca7ba9ee", "7920747b-c41f-4dad-b95f-a98b96ff314b",],
+        ["7920747b-c41f-4dad-b95f-a98b96ff314b", "ea186baa-4d56-4d4e-9d7d-532465681e39",],
+        ["ea186baa-4d56-4d4e-9d7d-532465681e39", "4c29099d-cb97-4890-a458-bd7c89e908b9",],
+        ["4c29099d-cb97-4890-a458-bd7c89e908b9", "2cea62ef-73e8-4572-8bc1-ea954ae0f538",],
+        ["2cea62ef-73e8-4572-8bc1-ea954ae0f538", "8645f4e7-2e5b-4985-be85-f4f304738d9f",],
+        ["8645f4e7-2e5b-4985-be85-f4f304738d9f", "5cfa10e7-f8ca-411b-a263-6e117c7c71bc",],
+    ],
+    image: goatImage,
+    width: 798,
+    height: 656
+}
+
 export const constellations: Constellation[] = [
     girlConstellation,
-    squirrelConstellation
+    squirrelConstellation,
+    goatConstellation,
 ]
