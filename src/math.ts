@@ -1,3 +1,5 @@
+export const TAU = 2 * Math.PI
+
 export function deg2rad(degrees: number): number {
     return degrees * Math.PI / 180
 }

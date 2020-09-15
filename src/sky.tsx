@@ -1,7 +1,9 @@
-import {Constellation, ConstellationEdge, edgeEquals, Star} from "./constellation";
+import {Constellation, ConstellationEdge, allConstellations, edgeEquals, Star} from "./constellation";
 import {ViewPort} from "./viewPort";
+import {chooseN} from "./misc";
+import {TAU} from "./math";
 
-interface PlacedConstellation {
+export interface PlacedConstellation {
     constellation: Constellation
     x: number
     y: number
@@ -29,5 +31,38 @@ export function toggleEdge(sky: Sky, starId1: string, starId2: string) {
     }
     else {
         sky.edges.splice(index, 1)
+    }
+}
+
+export function makeSky(aspectRatio: number): Sky {
+    const numberOfConstellations = 1
+    const constellations = chooseN(allConstellations, numberOfConstellations)
+        .map(constellation => ({
+            constellation,
+            x: Math.random() * 500,
+            y: Math.random() * 500,
+            angle: Math.random() * TAU
+        }))
+
+    return {
+        constellations,
+        edges: [],
+        extraStars: [],
+        focusedStarId: null,
+        hoveredStarId: null,
+        viewPort: {
+            bounds: {
+                x: 0,
+                y: 0,
+                width: window.innerWidth,
+                height: window.innerHeight,
+            },
+            viewBox: {
+                x: 0,
+                y: 0,
+                width: window.innerWidth,
+                height: window.innerHeight,
+            },
+        }
     }
 }

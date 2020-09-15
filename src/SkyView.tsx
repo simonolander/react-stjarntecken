@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import space from "./image/space.jpg"
 import {Size} from "./size";
 import {toViewBoxString} from "./rectangle";
-import {constellationIsComplete, constellations, Star} from "./constellation";
+import {constellationIsComplete, Star} from "./constellation";
 import {useDispatch, useSelector} from "react-redux";
 import {
     skyMouseUpAction,
@@ -14,6 +14,8 @@ import {
     viewBoxTranslateAction
 } from "./store";
 import {createMap} from "./misc";
+import {PlacedConstellation} from "./sky";
+import {rad2deg} from "./math";
 
 interface SkyViewProps {
     size: Size
@@ -45,6 +47,26 @@ function StarView(props: { star: Star }) {
     )
 }
 
+function ConstellationView(props: { constellation: PlacedConstellation }) {
+    const edges = useSelector(state => state.sky.edges)
+    const complete = constellationIsComplete(props.constellation.constellation, edges)
+    return (
+        <g transform={`
+            translate(${props.constellation.x}, ${props.constellation.y})
+            rotate(${rad2deg(props.constellation.angle)}) 
+        `}>
+            {props.constellation.constellation.stars.map(star => <StarView key={star.id} star={star}/>)}
+            {complete && (
+                <image
+                    onDragStart={e => e.preventDefault()}
+                    href={props.constellation.constellation.image}
+                    style={{animation: "2s fade-in"}}
+                />
+            )}
+        </g>
+    )
+}
+
 export default function SkyView(props: SkyViewProps) {
     const sky = useSelector(state => state.sky);
     const dispatch = useDispatch();
@@ -55,16 +77,11 @@ export default function SkyView(props: SkyViewProps) {
     }, [props.size, dispatch])
 
     const stars = [...sky.extraStars]
-    for (const constellation of sky.constellations) {
-        for (const star of constellation.constellation.stars) {
-            stars.push({
-                ...star,
-                x: star.x + constellation.x,
-                y: star.y + constellation.y
-            })
-        }
-    }
     const starMap = createMap(stars)
+
+    for (const constellation of sky.constellations) {
+        constellation.constellation.stars.forEach(star => starMap[star.id] = star)
+    }
 
     return (
         <svg
@@ -102,18 +119,8 @@ export default function SkyView(props: SkyViewProps) {
                 dispatch(viewBoxScaleAction({fx, fy, ds}))
             }}
         >
-            {sky.constellations
-                .filter(constellation => constellationIsComplete(constellation.constellation, sky.edges))
-                .map(constellation => (
-                    <image
-                        onDragStart={e => e.preventDefault()}
-                        href={constellation.constellation.image}
-                        x={constellation.x}
-                        y={constellation.y}
-                        style={{animation: "2s fade-in"}}
-                    />
-                ))
-            }
+            {sky.constellations.map(constellation => <ConstellationView key={constellation.constellation.id}
+                                                                        constellation={constellation}/>)}
             {sky.edges.map(([id1, id2]) => (
                 <line
                     x1={starMap[id1].x}

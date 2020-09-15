@@ -212,7 +212,7 @@ export const goatConstellation: Constellation = {
     height: 656
 }
 
-export const constellations: Constellation[] = [
+export const allConstellations: Constellation[] = [
     girlConstellation,
     squirrelConstellation,
     goatConstellation,
