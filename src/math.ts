@@ -8,6 +8,6 @@ export function rad2deg(radians: number): number {
     return radians / Math.PI * 180
 }
 
-export function clamp(x: number, min: number, max: number) {
-    return Math.max(min, Math.min(max, x))
+export function clamp(value: number, min: number, max: number) {
+    return Math.max(min, Math.min(max, value))
 }

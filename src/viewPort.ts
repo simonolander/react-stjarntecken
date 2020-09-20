@@ -7,8 +7,8 @@ export interface ViewPort {
 }
 
 export function translate(viewPort: ViewPort, dx: number, dy: number) {
-    viewPort.viewBox.x = clamp(viewPort.viewBox.x + dx, viewPort.bounds.x, viewPort.bounds.width - viewPort.viewBox.width)
-    viewPort.viewBox.y = clamp(viewPort.viewBox.y + dy, viewPort.bounds.y, viewPort.bounds.height - viewPort.viewBox.height)
+    viewPort.viewBox.x = clamp(viewPort.viewBox.x + dx, viewPort.bounds.x, viewPort.bounds.width - viewPort.viewBox.width + viewPort.bounds.x)
+    viewPort.viewBox.y = clamp(viewPort.viewBox.y + dy, viewPort.bounds.y, viewPort.bounds.height - viewPort.viewBox.height + viewPort.bounds.y)
 }
 
 export function scale(viewPort: ViewPort, fx: number, fy: number, ds: number) {

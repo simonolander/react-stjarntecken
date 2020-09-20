@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import space from "./image/space.jpg"
 import {Size} from "./size";
-import {toViewBoxString} from "./rectangle";
+import {rectangleCenter, toViewBoxString} from "./rectangle";
 import {constellationIsComplete, Star} from "./constellation";
 import {useDispatch, useSelector} from "react-redux";
 import {
@@ -50,10 +50,16 @@ function StarView(props: { star: Star }) {
 function ConstellationView(props: { constellation: PlacedConstellation }) {
     const edges = useSelector(state => state.sky.edges)
     const complete = constellationIsComplete(props.constellation.constellation, edges)
+    const [cx, cy] = rectangleCenter({
+        x: props.constellation.x,
+        y: props.constellation.y,
+        width: props.constellation.constellation.width,
+        height: props.constellation.constellation.height,
+    })
     return (
         <g transform={`
             translate(${props.constellation.x}, ${props.constellation.y})
-            rotate(${rad2deg(props.constellation.angle)}) 
+            rotate(${rad2deg(props.constellation.angle)}, ${cx}, ${cy}) 
         `}>
             {props.constellation.constellation.stars.map(star => <StarView key={star.id} star={star}/>)}
             {complete && (
@@ -112,15 +118,33 @@ export default function SkyView(props: SkyViewProps) {
             }}
             onWheel={e => {
                 e.preventDefault()
-                const scrollSensitivity = 0.01
-                const fx = sky.viewPort.viewBox.x + e.clientX * sky.viewPort.viewBox.width / props.size.width
-                const fy = sky.viewPort.viewBox.y + e.clientY * sky.viewPort.viewBox.height / props.size.height
-                const ds = Math.exp(scrollSensitivity * e.deltaY)
-                dispatch(viewBoxScaleAction({fx, fy, ds}))
+                if (e.ctrlKey) {
+                    const scrollSensitivity = 0.01
+                    const fx = sky.viewPort.viewBox.x + e.clientX * sky.viewPort.viewBox.width / props.size.width
+                    const fy = sky.viewPort.viewBox.y + e.clientY * sky.viewPort.viewBox.height / props.size.height
+                    const ds = Math.exp(scrollSensitivity * e.deltaY)
+                    dispatch(viewBoxScaleAction({fx, fy, ds}))
+                } else {
+                    const dx = e.deltaX * sky.viewPort.viewBox.width / props.size.width
+                    const dy = e.deltaY * sky.viewPort.viewBox.height / props.size.height
+                    dispatch(viewBoxTranslateAction({dx, dy}))
+                }
             }}
         >
-            {sky.constellations.map(constellation => <ConstellationView key={constellation.constellation.id}
-                                                                        constellation={constellation}/>)}
+            <rect
+                x={sky.viewPort.bounds.x}
+                y={sky.viewPort.bounds.y}
+                width={sky.viewPort.bounds.width}
+                height={sky.viewPort.bounds.height}
+                stroke="white"
+                strokeWidth={5}
+            />
+            {sky.constellations.map(constellation => (
+                <ConstellationView
+                    key={constellation.constellation.id}
+                    constellation={constellation}
+                />
+            ))}
             {sky.edges.map(([id1, id2]) => (
                 <line
                     x1={starMap[id1].x}

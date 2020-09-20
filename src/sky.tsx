@@ -28,22 +28,28 @@ export function toggleEdge(sky: Sky, starId1: string, starId2: string) {
     const index = sky.edges.findIndex(e2 => edgeEquals(e1, e2))
     if (index === -1) {
         sky.edges.push(e1)
-    }
-    else {
+    } else {
         sky.edges.splice(index, 1)
     }
 }
 
 export function makeSky(aspectRatio: number): Sky {
-    const numberOfConstellations = 1
+    const numberOfConstellations = 4
     const constellations = chooseN(allConstellations, numberOfConstellations)
         .map(constellation => ({
             constellation,
-            x: Math.random() * 500,
-            y: Math.random() * 500,
-            angle: Math.random() * TAU
+            x: Math.random() * 2000,
+            y: Math.random() * 2000,
+            angle: Math.random() * TAU * 0
         }))
 
+    const x = Math.min(...constellations.map(constellation => constellation.x))
+    const y = Math.min(...constellations.map(constellation => constellation.y))
+    const width = Math.max(...constellations.map(constellation => constellation.x + constellation.constellation.width)) - x
+    const height = Math.max(...constellations.map(constellation => constellation.y + constellation.constellation.height)) - y
+    const bounds = {x, y, width, height}
+
+    console.log(bounds)
     return {
         constellations,
         edges: [],
@@ -51,18 +57,8 @@ export function makeSky(aspectRatio: number): Sky {
         focusedStarId: null,
         hoveredStarId: null,
         viewPort: {
-            bounds: {
-                x: 0,
-                y: 0,
-                width: window.innerWidth,
-                height: window.innerHeight,
-            },
-            viewBox: {
-                x: 0,
-                y: 0,
-                width: window.innerWidth,
-                height: window.innerHeight,
-            },
+            bounds: {...bounds},
+            viewBox: bounds,
         }
     }
 }
