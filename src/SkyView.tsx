@@ -83,10 +83,15 @@ export default function SkyView(props: SkyViewProps) {
     }, [props.size, dispatch])
 
     const stars = [...sky.extraStars]
-    const starMap = createMap(stars)
-
+    const starMap: Record<string, [number, number]> = {}
+    
+    for (const {id, x, y} of stars) {
+        starMap[id] = [x, y];
+    }
     for (const constellation of sky.constellations) {
-        constellation.constellation.stars.forEach(star => starMap[star.id] = star)
+        for (const {id, x, y} of constellation.constellation.stars) {
+            starMap[id] = [x + constellation.x, y + constellation.y];
+        }
     }
 
     return (
@@ -147,10 +152,10 @@ export default function SkyView(props: SkyViewProps) {
             ))}
             {sky.edges.map(([id1, id2]) => (
                 <line
-                    x1={starMap[id1].x}
-                    y1={starMap[id1].y}
-                    x2={starMap[id2].x}
-                    y2={starMap[id2].y}
+                    x1={starMap[id1][0]}
+                    y1={starMap[id1][1]}
+                    x2={starMap[id2][0]}
+                    y2={starMap[id2][1]}
                     stroke="white"
                     strokeWidth={3}
                 />

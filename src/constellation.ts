@@ -32,11 +32,11 @@ export function constellationIsComplete(constellation: Constellation, edges: Con
         return false
     }
     for (const correctEdge of constellation.edges) {
-        if (!edges.some(edge => edgeEquals(edge, correctEdge))) {
+        if (!edgesWithStar.some(edge => edgeEquals(edge, correctEdge))) {
             return false
         }
     }
-    for (const actualEdge of edges) {
+    for (const actualEdge of edgesWithStar) {
         if (!constellation.edges.some(edge => edgeEquals(edge, actualEdge))) {
             return false
         }
