@@ -13,7 +13,6 @@ import {
     viewBoxScaleAction,
     viewBoxTranslateAction
 } from "./store";
-import {createMap} from "./misc";
 import {PlacedConstellation} from "./sky";
 import {rad2deg} from "./math";
 
@@ -56,6 +55,7 @@ function ConstellationView(props: { constellation: PlacedConstellation }) {
         width: props.constellation.constellation.width,
         height: props.constellation.constellation.height,
     })
+    // noinspection HtmlDeprecatedTag
     return (
         <g transform={`
             translate(${props.constellation.x}, ${props.constellation.y})
@@ -64,7 +64,7 @@ function ConstellationView(props: { constellation: PlacedConstellation }) {
             {props.constellation.constellation.stars.map(star => <StarView key={star.id} star={star}/>)}
             {complete && (
                 <image
-                    onDragStart={e => e.preventDefault()}
+                    pointerEvents="none"
                     href={props.constellation.constellation.image}
                     style={{animation: "2s fade-in"}}
                 />
