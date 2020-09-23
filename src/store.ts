@@ -1,9 +1,8 @@
 import {Size} from "./size";
 import {DefaultRootState} from "react-redux";
 import {configureStore, createAction, createReducer} from "@reduxjs/toolkit";
-import {hasEdge, makeSky, Sky, toggleEdge} from "./sky";
+import {makeSky, Sky, toggleEdge} from "./sky";
 import {aspect, scale, translate} from "./viewPort";
-import {girlConstellation, goatConstellation, squirrelConstellation} from "./constellation";
 
 
 declare module "react-redux" {

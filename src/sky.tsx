@@ -34,7 +34,7 @@ export function toggleEdge(sky: Sky, starId1: string, starId2: string) {
 }
 
 export function makeSky(aspectRatio: number): Sky {
-    const numberOfConstellations = 4
+    const numberOfConstellations = allConstellations.length
     const constellations = chooseN(allConstellations, numberOfConstellations)
         .map(constellation => ({
             constellation,

@@ -1,6 +1,7 @@
 import girlImage from "./image/girl-braid.png"
 import squirrelImage from "./image/squirrel.png"
 import goatImage from "./image/goat.png"
+import fistImage from "./image/fist.png"
 
 export interface Star {
     id: string
@@ -212,8 +213,90 @@ export const goatConstellation: Constellation = {
     height: 656
 }
 
+export const fistConstellation: Constellation = {
+    id: "f80a0f5e-b28a-479c-be2b-153e7f737733",
+    name: "The goat",
+    stars: [
+        {
+            id: "e11f4541-72fb-4fd5-8aba-68335f4ffc78",
+            size: 0.512,
+            x: 212,
+            y: 40,
+        },
+        {
+            id: "7e3c27ca-7f9a-46e7-b37f-7aaa02fd55b7",
+            size: 0.853,
+            x: 159,
+            y: 36,
+        },
+        {
+            id: "2e0e4445-89b6-49d8-a9df-2ac40a0a7ca5",
+            size: 0.468,
+            x: 141,
+            y: 119,
+        },
+        {
+            id: "a22924bf-d038-43fd-9bb8-af658b9515c8",
+            size: 0.239,
+            x: 97,
+            y: 136,
+        },
+        {
+            id: "4d4578b8-4ea9-49fe-ad75-856c08945d43",
+            size: 0.774,
+            x: 112,
+            y: 32,
+        },
+        {
+            id: "07f8234a-5257-4993-bbef-9ead1ab807d1",
+            size: 0.287,
+            x: 71,
+            y: 33,
+        },
+        {
+            id: "08ec2f97-4eac-4234-81d0-88a383355892",
+            size: 0.175,
+            x: 26,
+            y: 57,
+        },
+        {
+            id: "839a1d11-06ec-4864-8c6c-18aff39ff15b",
+            size: 0.466,
+            x: 104,
+            y: 88,
+        },
+        {
+            id: "2e29ac21-357a-4991-a715-2d8eb8c42e09",
+            size: 0.391,
+            x: 65,
+            y: 92,
+        },
+        {
+            id: "4320c0e7-7f4d-4560-89f9-5fe50e8afe35",
+            size: 0.369,
+            x: 41,
+            y: 100,
+        },
+    ],
+    edges: [
+        ["e11f4541-72fb-4fd5-8aba-68335f4ffc78", "7e3c27ca-7f9a-46e7-b37f-7aaa02fd55b7",],
+        ["7e3c27ca-7f9a-46e7-b37f-7aaa02fd55b7", "2e0e4445-89b6-49d8-a9df-2ac40a0a7ca5",],
+        ["2e0e4445-89b6-49d8-a9df-2ac40a0a7ca5", "a22924bf-d038-43fd-9bb8-af658b9515c8",],
+        ["7e3c27ca-7f9a-46e7-b37f-7aaa02fd55b7", "4d4578b8-4ea9-49fe-ad75-856c08945d43",],
+        ["4d4578b8-4ea9-49fe-ad75-856c08945d43", "07f8234a-5257-4993-bbef-9ead1ab807d1",],
+        ["07f8234a-5257-4993-bbef-9ead1ab807d1", "08ec2f97-4eac-4234-81d0-88a383355892",],
+        ["4d4578b8-4ea9-49fe-ad75-856c08945d43", "839a1d11-06ec-4864-8c6c-18aff39ff15b",],
+        ["07f8234a-5257-4993-bbef-9ead1ab807d1", "2e29ac21-357a-4991-a715-2d8eb8c42e09",],
+        ["08ec2f97-4eac-4234-81d0-88a383355892", "4320c0e7-7f4d-4560-89f9-5fe50e8afe35",],
+    ],
+    image: fistImage,
+    width: 249,
+    height: 166,
+}
+
 export const allConstellations: Constellation[] = [
     girlConstellation,
     squirrelConstellation,
     goatConstellation,
+    fistConstellation,
 ]
