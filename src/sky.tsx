@@ -43,10 +43,21 @@ export function makeSky(aspectRatio: number): Sky {
             angle: Math.random() * TAU * 0
         }))
 
-    const x = Math.min(...constellations.map(constellation => constellation.x))
-    const y = Math.min(...constellations.map(constellation => constellation.y))
-    const width = Math.max(...constellations.map(constellation => constellation.x + constellation.constellation.width)) - x
-    const height = Math.max(...constellations.map(constellation => constellation.y + constellation.constellation.height)) - y
+    const padding = 50
+    let x = Math.min(...constellations.map(constellation => constellation.x))
+    let y = Math.min(...constellations.map(constellation => constellation.y))
+    let width = Math.max(...constellations.map(constellation => constellation.x + constellation.constellation.width)) - x
+    let height = Math.max(...constellations.map(constellation => constellation.y + constellation.constellation.height)) - y
+    x -= padding
+    y -= padding
+    width += padding
+    height += padding
+    if (width / height > aspectRatio) {
+        height = width / aspectRatio
+    }
+    else {
+        width = aspectRatio * height
+    }
     const bounds = {x, y, width, height}
 
     console.log(bounds)

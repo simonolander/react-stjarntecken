@@ -20,7 +20,7 @@ const initialWindowSize = {
 
 const initialState: DefaultRootState = {
     window: initialWindowSize,
-    sky: makeSky(3)
+    sky: makeSky(initialWindowSize.width / initialWindowSize.height)
 }
 
 export const resizeAction = createAction<Size>("resize");
