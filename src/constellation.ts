@@ -2,6 +2,7 @@ import girlImage from "./image/girl-braid.png"
 import squirrelImage from "./image/squirrel.png"
 import goatImage from "./image/goat.png"
 import fistImage from "./image/fist.png"
+import pineappleImage from "./image/pineapple.png"
 
 export interface Star {
     id: string
@@ -215,7 +216,7 @@ export const goatConstellation: Constellation = {
 
 export const fistConstellation: Constellation = {
     id: "f80a0f5e-b28a-479c-be2b-153e7f737733",
-    name: "The goat",
+    name: "The fist",
     stars: [
         {
             id: "e11f4541-72fb-4fd5-8aba-68335f4ffc78",
@@ -294,9 +295,71 @@ export const fistConstellation: Constellation = {
     height: 166,
 }
 
+export const pineappleConstellation: Constellation = {
+    id: "3bb79983-7c11-488d-83a8-e9d60d8dfc5c",
+    name: "The pineapple",
+    stars: [
+        {
+            id: "7223998c-4759-4094-b7ac-de0a582d77b7",
+            size: 0.600,
+            x: 295,
+            y: 166,
+        },
+        {
+            id: "a02725c1-1239-451a-b262-9504c0dbcf6e",
+            size: 0.287,
+            x: 211,
+            y: 427,
+        },
+        {
+            id: "90c45f36-c6cd-4e4d-ab73-0ff189c52b47",
+            size: 0.933,
+            x: 223,
+            y: 634,
+        },
+        {
+            id: "435fa866-e12a-467e-8511-eca6adb91a66",
+            size: 0.815,
+            x: 127,
+            y: 747,
+        },
+        {
+            id: "df4d77a8-6260-4c32-8621-9cd6d045ccb8",
+            size: 0.289,
+            x: 214,
+            y: 850,
+        },
+        {
+            id: "c28cdef3-84b0-4bf7-8dc3-72e18ac4c9e0",
+            size: 0.299,
+            x: 319,
+            y: 712,
+        },
+        {
+            id: "666947cd-b99e-49a3-9c94-2339bfb3341e",
+            size: 0.591,
+            x: 133,
+            y: 313,
+        },
+    ],
+    edges: [
+        ["7223998c-4759-4094-b7ac-de0a582d77b7", "a02725c1-1239-451a-b262-9504c0dbcf6e",],
+        ["a02725c1-1239-451a-b262-9504c0dbcf6e", "90c45f36-c6cd-4e4d-ab73-0ff189c52b47",],
+        ["90c45f36-c6cd-4e4d-ab73-0ff189c52b47", "435fa866-e12a-467e-8511-eca6adb91a66",],
+        ["435fa866-e12a-467e-8511-eca6adb91a66", "df4d77a8-6260-4c32-8621-9cd6d045ccb8",],
+        ["df4d77a8-6260-4c32-8621-9cd6d045ccb8", "c28cdef3-84b0-4bf7-8dc3-72e18ac4c9e0",],
+        ["c28cdef3-84b0-4bf7-8dc3-72e18ac4c9e0", "90c45f36-c6cd-4e4d-ab73-0ff189c52b47",],
+        ["666947cd-b99e-49a3-9c94-2339bfb3341e", "a02725c1-1239-451a-b262-9504c0dbcf6e",],
+    ],
+    image: pineappleImage,
+    width: 485,
+    height: 949,
+}
+
 export const allConstellations: Constellation[] = [
     girlConstellation,
     squirrelConstellation,
     goatConstellation,
     fistConstellation,
+    pineappleConstellation,
 ]
