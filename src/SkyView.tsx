@@ -20,7 +20,7 @@ interface SkyViewProps {
   size: Size;
 }
 
-function StarView(props: { star: Star }) {
+function StarView(props: { star: Star, nonInteractive?: true }) {
   const dispatch = useDispatch();
   const hoveredStarId = useSelector((state) => state.sky.hoveredStarId);
   const focusedStarId = useSelector((state) => state.sky.focusedStarId);
@@ -33,6 +33,7 @@ function StarView(props: { star: Star }) {
         r={props.star.size * 10}
         fill="white"
       />
+      {!props.nonInteractive && (
       <circle
         cx={props.star.position.x}
         cy={props.star.position.y}
@@ -47,7 +48,7 @@ function StarView(props: { star: Star }) {
         onMouseEnter={() => dispatch(starEnterAction(props.star.id))}
         onMouseLeave={() => dispatch(starLeaveAction(props.star.id))}
         onMouseDown={() => dispatch(starMouseDownAction(props.star.id))}
-      />
+      />)}
     </g>
   );
 }
