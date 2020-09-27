@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@flatten-js/core": "^1.2.15",
     "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -21,7 +22,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "prettier -w src"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,6 +41,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-redux": "^7.1.9"
+    "@types/react-redux": "^7.1.9",
+    "prettier": "^2.1.2"
   }
 }
