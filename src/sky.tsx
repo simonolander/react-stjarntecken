@@ -2,6 +2,7 @@ import {allConstellations, Constellation, ConstellationEdge, edgeEquals, Star,} 
 import {ViewPort} from "./viewPort";
 import {chooseN} from "./misc";
 import Flatten from "@flatten-js/core";
+import {TAU} from "./math";
 
 export interface PlacedConstellation {
     constellation: Constellation;
@@ -67,13 +68,15 @@ function placeConstellations(constellations: Constellation[]) {
     for (const constellation of constellations) {
         placedConstellations.push({
             constellation,
-            matrix: new Flatten.Matrix().translate(
-                Math.random() * 100,
-                Math.random() * 100
-            ),
+            matrix: new Flatten.Matrix()
+                .translate(
+                    Math.random() * 100,
+                    Math.random() * 100
+                )
+                .rotate(Math.random() * TAU / 4 - TAU / 8),
         });
     }
-    for (let i = 0; i < 100; ++i) {
+    for (let i = 0; i < 200; ++i) {
         let intersects = false
         for (const c1 of placedConstellations) {
             let polygon1 = new Flatten.Polygon(c1.constellation.convexHull).transform(c1.matrix)
@@ -116,11 +119,11 @@ export function makeSky(aspectRatio: number): Sky {
     const y = box.ymin - padding;
     let width = box.xmax - x + padding;
     let height = box.ymax - y + padding;
-    if (width / height > aspectRatio) {
-        height = width / aspectRatio;
-    } else {
-        width = aspectRatio * height;
-    }
+    // if (width / height > aspectRatio) {
+    //     height = width / aspectRatio;
+    // } else {
+    //     width = aspectRatio * height;
+    // }
     const bounds = {x, y, width, height};
 
     return {
