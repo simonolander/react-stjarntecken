@@ -20,7 +20,13 @@ interface SkyViewProps {
   size: Size;
 }
 
-function StarView(props: { star: Star; nonInteractive?: true }) {
+function StarView({
+  nonInteractive = false,
+  star,
+}: {
+  star: Star;
+  nonInteractive?: boolean;
+}) {
   const dispatch = useDispatch();
   const hoveredStarId = useSelector((state) => state.sky.hoveredStarId);
   const focusedStarId = useSelector((state) => state.sky.focusedStarId);
@@ -28,26 +34,26 @@ function StarView(props: { star: Star; nonInteractive?: true }) {
     <g>
       <circle
         style={{ animation: "2s fadeIn" }}
-        cx={props.star.position.x}
-        cy={props.star.position.y}
-        r={props.star.size * 10}
-        fill="white"
+        cx={star.position.x}
+        cy={star.position.y}
+        r={star.size * 10}
+        fill="#ffffffff"
       />
-      {!props.nonInteractive && (
+      {!nonInteractive && (
         <circle
-          cx={props.star.position.x}
-          cy={props.star.position.y}
+          cx={star.position.x}
+          cy={star.position.y}
           r={30}
           fill={
-            focusedStarId === props.star.id
+            focusedStarId === star.id
               ? "#ffffffc0"
-              : hoveredStarId === props.star.id
+              : hoveredStarId === star.id
               ? "#ffffff80"
               : "transparent"
           }
-          onMouseEnter={() => dispatch(starEnterAction(props.star.id))}
-          onMouseLeave={() => dispatch(starLeaveAction(props.star.id))}
-          onMouseDown={() => dispatch(starMouseDownAction(props.star.id))}
+          onMouseEnter={() => dispatch(starEnterAction(star.id))}
+          onMouseLeave={() => dispatch(starLeaveAction(star.id))}
+          onMouseDown={() => dispatch(starMouseDownAction(star.id))}
         />
       )}
     </g>
@@ -66,7 +72,7 @@ function ConstellationView(props: { constellation: PlacedConstellation }) {
       transform={`matrix(${props.constellation.matrix.a} ${props.constellation.matrix.b} ${props.constellation.matrix.c} ${props.constellation.matrix.d} ${props.constellation.matrix.tx} ${props.constellation.matrix.ty})`}
     >
       {props.constellation.constellation.stars.map((star) => (
-        <StarView key={star.id} star={star} />
+        <StarView key={star.id} star={star} nonInteractive={complete} />
       ))}
       {complete && (
         <image
