@@ -20,7 +20,7 @@ interface SkyViewProps {
   size: Size;
 }
 
-function StarView(props: { star: Star, nonInteractive?: true }) {
+function StarView(props: { star: Star; nonInteractive?: true }) {
   const dispatch = useDispatch();
   const hoveredStarId = useSelector((state) => state.sky.hoveredStarId);
   const focusedStarId = useSelector((state) => state.sky.focusedStarId);
@@ -34,21 +34,22 @@ function StarView(props: { star: Star, nonInteractive?: true }) {
         fill="white"
       />
       {!props.nonInteractive && (
-      <circle
-        cx={props.star.position.x}
-        cy={props.star.position.y}
-        r={30}
-        fill={
-          focusedStarId === props.star.id
-            ? "#ffffffc0"
-            : hoveredStarId === props.star.id
-            ? "#ffffff80"
-            : "transparent"
-        }
-        onMouseEnter={() => dispatch(starEnterAction(props.star.id))}
-        onMouseLeave={() => dispatch(starLeaveAction(props.star.id))}
-        onMouseDown={() => dispatch(starMouseDownAction(props.star.id))}
-      />)}
+        <circle
+          cx={props.star.position.x}
+          cy={props.star.position.y}
+          r={30}
+          fill={
+            focusedStarId === props.star.id
+              ? "#ffffffc0"
+              : hoveredStarId === props.star.id
+              ? "#ffffff80"
+              : "transparent"
+          }
+          onMouseEnter={() => dispatch(starEnterAction(props.star.id))}
+          onMouseLeave={() => dispatch(starLeaveAction(props.star.id))}
+          onMouseDown={() => dispatch(starMouseDownAction(props.star.id))}
+        />
+      )}
     </g>
   );
 }
