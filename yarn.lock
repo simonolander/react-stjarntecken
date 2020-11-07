@@ -1095,18 +1095,6 @@
   resolved "https://registry.yarnpkg.com/@csstools/normalize.css/-/normalize.css-10.1.0.tgz#f0950bba18819512d42f7197e56c518aa491cf18"
   integrity sha512-ij4wRiunFfaJxjB0BdrYHIH8FxBJpOwNPhhAcunlmPdXudL1WQV1qoP9un6JsEBAgQH+7UXyyjh0g7jTxXK6tg==
 
-"@flatten-js/core@^1.2.15":
-  version "1.2.15"
-  resolved "https://registry.yarnpkg.com/@flatten-js/core/-/core-1.2.15.tgz#48ae9f4431dced33f572eeea458f9902868e41c3"
-  integrity sha512-RkVLd+ZKlSkUYB6NOIG7MUoXTTfzfO0wrm4Hx9+TwRsXI667WIb9sRmbYuOVE1PI1nP/OFEEKebe4mrYoRpOWQ==
-  dependencies:
-    "@flatten-js/interval-tree" "^1.0.11"
-
-"@flatten-js/interval-tree@^1.0.11":
-  version "1.0.12"
-  resolved "https://registry.yarnpkg.com/@flatten-js/interval-tree/-/interval-tree-1.0.12.tgz#f22784c3ffcaf473d0042ef1b8cb3309f2f2794c"
-  integrity sha512-j2o14WdFPII5cI57j0XNSWQm80gM4G6RT5+NLaH8q7KmQKejR/qZiGiViMjRgMtPiiwaX6hv3hlXeyRL3yzi7g==
-
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"

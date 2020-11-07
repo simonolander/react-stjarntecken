@@ -4,11 +4,13 @@ import { configureStore, createAction, createReducer } from "@reduxjs/toolkit";
 import { makeSky, Sky, toggleEdge } from "./sky";
 import { aspect, scale, translate } from "./viewPort";
 import { constellationIsComplete } from "./constellation";
+import { Settings } from "./settings";
 
 declare module "react-redux" {
   interface DefaultRootState {
     window: Size;
     sky: Sky;
+    settings: Settings;
   }
 }
 
@@ -20,6 +22,7 @@ const initialWindowSize = {
 const initialState: DefaultRootState = {
   window: initialWindowSize,
   sky: makeSky(initialWindowSize.width / initialWindowSize.height),
+  settings: {},
 };
 
 export const resizeAction = createAction<Size>("resize");

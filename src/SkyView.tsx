@@ -33,7 +33,6 @@ function StarView({
   return (
     <g>
       <circle
-        style={{ animation: "2s fadeIn" }}
         cx={star.position.x}
         cy={star.position.y}
         r={star.size * 10}
@@ -71,9 +70,6 @@ function ConstellationView(props: { constellation: PlacedConstellation }) {
     <g
       transform={`matrix(${props.constellation.matrix.a} ${props.constellation.matrix.b} ${props.constellation.matrix.c} ${props.constellation.matrix.d} ${props.constellation.matrix.tx} ${props.constellation.matrix.ty})`}
     >
-      {props.constellation.constellation.stars.map((star) => (
-        <StarView key={star.id} star={star} nonInteractive={complete} />
-      ))}
       {complete && (
         <image
           pointerEvents="none"
@@ -81,6 +77,9 @@ function ConstellationView(props: { constellation: PlacedConstellation }) {
           style={{ animation: "2s fade-in" }}
         />
       )}
+      {props.constellation.constellation.stars.map((star) => (
+        <StarView key={star.id} star={star} nonInteractive={complete} />
+      ))}
     </g>
   );
 }
