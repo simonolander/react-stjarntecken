@@ -1,7 +1,6 @@
 import * as Point from "./Point";
-import {Rectangle} from "./rectangle";
-import {range} from "../misc";
 import * as Matrix from "./Matrix";
+import * as Rectangle from "./rectangle";
 
 export interface Polygon {
     points: Point.Point[]
@@ -29,7 +28,7 @@ export function centroid({points}: Polygon): Point.Point {
     return {x: cx, y: cy};
 }
 
-export function bbox(polygon: Polygon): Rectangle {
+export function bbox(polygon: Polygon): Rectangle.Rectangle {
     if (polygon.points.length === 0) {
         console.warn("bbox called on empty polygon")
         return {height: 0, width: 0, x: 0, y: 0}
@@ -51,20 +50,6 @@ export function bbox(polygon: Polygon): Rectangle {
  * Given a set of polygons that may be overlapping, separates them so that they are no longer overlapping.
  * @param polygons
  */
-export function separate(polygons: Polygon[]) {
-    const copies = polygons.map(copy)
-    const matrices = range(polygons.length).map(Matrix.identity)
-    const maxIterations = polygons.length * 30
-    for (let _ = 0; _ < maxIterations; ++_) {
-        for (let i1 = 0; i1 < copies.length; ++i1) {
-            const p1 = copies[i1]
-            const m1 = matrices[i1]
-            const bbox1 = bbox(p1)
-            for (let i2 = i1 + 1; i2 < copies.length; ++i2) {
-                const p2 = copies[i2]
-                const m2 = matrices[i2]
-                const bbox2 = bbox(p2)
-            }
-        }
-    }
+export function separate(...polygons: Polygon[]): Matrix.Matrix[] {
+    return Rectangle.separate(...polygons.map(bbox))
 }

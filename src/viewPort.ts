@@ -1,9 +1,9 @@
-import { Rectangle, rectangleArea } from "./rectangle";
 import { clamp } from "./math";
+import * as Rectangle from "./geometry/rectangle";
 
 export interface ViewPort {
-  bounds: Rectangle;
-  viewBox: Rectangle;
+  bounds: Rectangle.Rectangle;
+  viewBox: Rectangle.Rectangle;
 }
 
 export function translate(viewPort: ViewPort, dx: number, dy: number) {
@@ -44,7 +44,7 @@ export function aspect(viewPort: ViewPort, width: number, height: number) {
     width / height < viewPort.bounds.width / viewPort.bounds.height
       ? (viewPort.bounds.height * viewPort.bounds.height * width) / height
       : (viewPort.bounds.width * viewPort.bounds.width * height) / width;
-  const area = Math.min(rectangleArea(viewPort.viewBox), maxArea);
+  const area = Math.min(Rectangle.area(viewPort.viewBox), maxArea);
   const newWidth = Math.sqrt((area * width) / height);
   const newHeight = area / newWidth;
   const dx = (viewPort.viewBox.width - newWidth) / 2;

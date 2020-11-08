@@ -1,4 +1,7 @@
 import * as Point from "./Point";
+import * as Matrix from "./Matrix";
+import {bbox} from "./Polygon";
+import {range} from "../misc";
 
 export interface Rectangle {
     x: number;
@@ -9,6 +12,10 @@ export interface Rectangle {
 
 export function create(x: number = 0, y: number = 0, width: number = 0, height: number = 0): Rectangle {
     return {height, width, x, y}
+}
+
+export function copy(rectangle: Rectangle): Rectangle {
+    return {...rectangle}
 }
 
 export function merge(r1: Rectangle, r2: Rectangle): Rectangle {
@@ -67,4 +74,31 @@ export function overlaps(r1: Rectangle, r2: Rectangle): boolean {
     }
 
     return true
+}
+
+export function separate(...rectangles: Rectangle[]): Matrix.Matrix[] {
+    const copies = rectangles.map(copy);
+    const matrices = range(rectangles.length).map(Matrix.identity)
+    const maxIterations = rectangles.length * 30;
+    for (let iteration = 0; iteration <= maxIterations; iteration += 1) {
+        for (let i1 = 0; i1 < copies.length; ++i1) {
+            const r1 = copies[i1]
+            const m1 = matrices[i1]
+            for (let i2 = i1 + 1; i2 < copies.length; ++i2) {
+                const r2 = copies[i2]
+                const m2 = matrices[i2]
+                if (!overlaps(r1, r2)) {
+                    continue
+                }
+                const dx = r1.x + r1.width - r2.x
+                const dx2 = dx/2
+                const dx1 = -dx2
+                r1.x += dx1
+                Matrix.translate(m1, dx1, 0)
+                r2.x += dx2
+                Matrix.translate(m2, dx2, 0)
+            }
+        }
+    }
+    return matrices
 }

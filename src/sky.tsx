@@ -2,10 +2,10 @@ import {ViewPort} from "./viewPort";
 import {chooseN} from "./misc";
 import {TAU} from "./math";
 import * as Matrix from "./geometry/Matrix";
-import {merge, create, pad} from "./geometry/rectangle";
-import {bbox} from "./geometry/Polygon";
+import * as Rectangle from "./geometry/rectangle";
+import * as Polygon from "./geometry/Polygon";
 import {Star} from "./model/star";
-import {Constellation, ConstellationEdge, edgeEquals} from "./model/constellation";
+import {allConstellations, Constellation, ConstellationEdge, edgeEquals} from "./model/constellation";
 
 export interface PositionedConstellation {
     constellation: Constellation;
@@ -38,71 +38,29 @@ export function toggleEdge(sky: Sky, starId1: string, starId2: string) {
         sky.edges.splice(index, 1);
     }
 }
-
-function placeConstellations(constellations: Constellation[]) {
-    const placedConstellations: PositionedConstellation[] = [];
-    for (const constellation of constellations) {
-        placedConstellations.push({
-            constellation,
-            matrix: Matrix.rotate(
-                Matrix.translate(
-                    Matrix.identity(),
-                    Math.random() * 100, Math.random() * 100
-                ),
-                Math.random() * TAU / 4 - TAU / 8
-            )
-        });
-    }
-    // for (let i = 0; i < 200; ++i) {
-    //   let intersects = false;
-    //   for (const c1 of placedConstellations) {
-    //     let polygon1 = new Flatten.Polygon(c1.constellation.convexHull).transform(
-    //       c1.matrix
-    //     );
-    //     let centroid1 = centroid(c1.constellation.convexHull).transform(
-    //       c1.matrix
-    //     );
-    //     for (const c2 of placedConstellations.filter((c2) => c2 !== c1)) {
-    //       let polygon2 = new Flatten.Polygon(
-    //         c2.constellation.convexHull
-    //       ).transform(c2.matrix);
-    //       let centroid2 = centroid(c2.constellation.convexHull).transform(
-    //         c2.matrix
-    //       );
-    //       if (Flatten.Relations.intersect(polygon1, polygon2)) {
-    //         const v1 = new Flatten.Vector(centroid2, centroid1).multiply(0.1);
-    //         c1.matrix = c1.matrix.translate(v1);
-    //         polygon1 = polygon1.translate(v1);
-    //         centroid1 = centroid1.translate(v1);
-    //         const v2 = v1.invert();
-    //         c2.matrix = c2.matrix.translate(v2);
-    //         polygon2 = polygon2.translate(v2);
-    //         centroid2 = centroid2.translate(v2);
-    //         intersects = true;
-    //       }
-    //     }
-    //   }
-    //   if (!intersects) {
-    //     break;
-    //   }
-    // }
-    return placedConstellations;
-}
-
 export function makeSky(aspectRatio: number): Sky {
-    const numberOfConstellations = allConstellations.length;
-    const constellations: PositionedConstellation[] = placeConstellations(
-        chooseN(allConstellations, numberOfConstellations)
-    );
+    const positionedConstellations: PositionedConstellation[] = chooseN(allConstellations, 10)
+        .map(constellation => ({
+            constellation,
+            matrix: Matrix.identity()
+        }))
 
-    const bounds = create()
-    for (const constellation of constellations) {
-        merge(bounds, bbox(constellation.constellation.convexHull))
+    for (const positionedConstellation of positionedConstellations) {
+        const angle = Math.random() * TAU / 4 - TAU / 8
+        const dx = Math.random() * 100
+        const dy = Math.random() * 100
+        Matrix.rotate(positionedConstellation.matrix, angle)
+        Matrix.translate(positionedConstellation.matrix, dx, dy)
     }
-    pad(bounds, 50)
+
+    const bounds = Polygon.bbox(positionedConstellations[0].constellation.convexHull)
+    for (const constellation of positionedConstellations) {
+        Rectangle.merge(bounds, Polygon.bbox(constellation.constellation.convexHull))
+    }
+    Rectangle.pad(bounds, 50)
 
     return {
-        positionedConstellations: constellations,
+        positionedConstellations: positionedConstellations,
         edges: [],
         extraStars: [],
         focusedStarId: null,
