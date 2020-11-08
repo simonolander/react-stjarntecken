@@ -2,7 +2,7 @@ import {ViewPort} from "./viewPort";
 import {chooseN} from "./misc";
 import {TAU} from "./math";
 import * as Matrix from "./geometry/Matrix";
-import {merge, newRectangle, pad} from "./geometry/rectangle";
+import {merge, create, pad} from "./geometry/rectangle";
 import {bbox} from "./geometry/Polygon";
 import {Star} from "./model/star";
 import {Constellation, ConstellationEdge, edgeEquals} from "./model/constellation";
@@ -95,7 +95,7 @@ export function makeSky(aspectRatio: number): Sky {
         chooseN(allConstellations, numberOfConstellations)
     );
 
-    const bounds = newRectangle()
+    const bounds = create()
     for (const constellation of constellations) {
         merge(bounds, bbox(constellation.constellation.convexHull))
     }

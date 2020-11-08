@@ -1,3 +1,5 @@
+import * as Point from "./Point";
+
 export interface Rectangle {
     x: number;
     y: number;
@@ -5,7 +7,7 @@ export interface Rectangle {
     height: number;
 }
 
-export function newRectangle(x: number = 0, y: number = 0, width: number = 0, height: number = 0): Rectangle {
+export function create(x: number = 0, y: number = 0, width: number = 0, height: number = 0): Rectangle {
     return {height, width, x, y}
 }
 
@@ -41,8 +43,10 @@ export function radius({height, width}: Rectangle): number {
     return Math.hypot(width / 2, height / 2);
 }
 
-export function center(rect: Rectangle): [number, number] {
-    return [rect.x + rect.width / 2, rect.y + rect.height / 2];
+export function center(rect: Rectangle): Point.Point {
+    const x = rect.x + rect.width / 2
+    const y = rect.y + rect.height / 2
+    return {x, y}
 }
 
 export function overlaps(r1: Rectangle, r2: Rectangle): boolean {
