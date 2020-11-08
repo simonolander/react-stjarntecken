@@ -47,7 +47,7 @@ interface SideBarProps {
 }
 
 function SideBar(props: SideBarProps) {
-    const placedConstellations = useSelector((state) => state.sky.constellations);
+    const placedConstellations = useSelector((state) => state.sky.positionedConstellations);
     const style: CSSProperties = {
         display: "flex",
         flexDirection: props.portrait ? "row" : "column"

@@ -13,7 +13,7 @@ import {
   viewBoxScaleAction,
   viewBoxTranslateAction,
 } from "./store";
-import { PlacedConstellation } from "./sky";
+import { PositionedConstellation } from "./sky";
 import Flatten from "@flatten-js/core";
 
 interface SkyViewProps {
@@ -59,7 +59,7 @@ function StarView({
   );
 }
 
-function ConstellationView(props: { constellation: PlacedConstellation }) {
+function ConstellationView(props: { constellation: PositionedConstellation }) {
   const edges = useSelector((state) => state.sky.edges);
   const complete = constellationIsComplete(
     props.constellation.constellation,
@@ -99,7 +99,7 @@ export default function SkyView(props: SkyViewProps) {
   for (const { id, position } of stars) {
     starMap[id] = position;
   }
-  for (const constellation of sky.constellations) {
+  for (const constellation of sky.positionedConstellations) {
     for (const { id, position } of constellation.constellation.stars) {
       starMap[id] = position.transform(constellation.matrix);
     }
@@ -162,7 +162,7 @@ export default function SkyView(props: SkyViewProps) {
         stroke="white"
         strokeWidth={5}
       />
-      {sky.constellations.map((constellation) => (
+      {sky.positionedConstellations.map((constellation) => (
         <ConstellationView
           key={constellation.constellation.id}
           constellation={constellation}

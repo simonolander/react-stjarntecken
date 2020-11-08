@@ -29,3 +29,11 @@ export function chooseN<T>(list: T[], n: number): T[] {
   }
   return selection;
 }
+
+export function range(to: number): number[] {
+  const array = []
+  for (let n = 0; n < to; ++n) {
+    array.push(n)
+  }
+  return array
+}

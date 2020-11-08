@@ -69,7 +69,7 @@ export const store = configureStore({
             toggleEdge(state.sky, state.sky.focusedStarId, action.payload);
           }
           state.sky.focusedStarId = action.payload;
-          const constellation = state.sky.constellations.find((constellation) =>
+          const constellation = state.sky.positionedConstellations.find((constellation) =>
             constellation.constellation.stars.some(
               (star) => star.id === action.payload
             )
