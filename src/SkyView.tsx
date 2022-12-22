@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import space from "./image/space.jpg";
-import { Size } from "./size";
-import { toViewBoxString } from "./rectangle";
-import { constellationIsComplete, Star } from "./constellation";
 import { useDispatch, useSelector } from "react-redux";
 import {
   skyMouseUpAction,
@@ -14,7 +11,10 @@ import {
   viewBoxTranslateAction,
 } from "./store";
 import { PositionedConstellation } from "./sky";
-import Flatten from "@flatten-js/core";
+import {constellationIsComplete} from "./model/constellation";
+import {Size} from "./geometry/size";
+import {Star} from "./model/star";
+import * as Matrix from "./geometry/Matrix";
 
 interface SkyViewProps {
   size: Size;
@@ -68,7 +68,7 @@ function ConstellationView(props: { constellation: PositionedConstellation }) {
   // noinspection HtmlDeprecatedTag
   return (
     <g
-      transform={`matrix(${props.constellation.matrix.a} ${props.constellation.matrix.b} ${props.constellation.matrix.c} ${props.constellation.matrix.d} ${props.constellation.matrix.tx} ${props.constellation.matrix.ty})`}
+      transform={Matrix.toTransformString(props.constellation.matrix)}
     >
       {complete && (
         <image

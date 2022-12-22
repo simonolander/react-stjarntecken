@@ -68,3 +68,7 @@ export function scale(m: Matrix, sx: number, sy: number): Matrix {
         m10: 0, m11: sy, m12: 0,
     })
 }
+
+export function toTransformString(m: Matrix) {
+    return `matrix(${m.m00} ${m.m10} ${m.m01} ${m.m11} ${m.m02} ${m.m12})`
+}
